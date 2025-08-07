@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -32,6 +33,15 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    /**
+     * Relasi ke instansi yang dipilih oleh user.
+     * hasOne karena satu user hanya boleh memilih satu instansi.
+     */
+    public function pilihanInstansi()
+    {
+        return $this->hasOne(InstansiPilihan::class);
+    }
 
     /**
      * The attributes that should be cast.
