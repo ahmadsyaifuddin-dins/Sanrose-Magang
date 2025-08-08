@@ -22,11 +22,11 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'), // Ganti dengan password yang aman
         ]);
 
-        // Membuat Admin
+        // Membuat Maganger
         User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@gmail.com',
-            'role' => 'admin',
+            'name' => 'Maganger User',
+            'email' => 'maganger@gmail.com',
+            'role' => 'maganger',
             'password' => Hash::make('password'), // Ganti dengan password yang aman
         ]);
     }

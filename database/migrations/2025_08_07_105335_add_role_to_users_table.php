@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             // Menambahkan kolom 'role' setelah kolom 'email'
             // Tipe enum membatasi nilai yang bisa dimasukkan, lebih aman.
-            // Default 'admin' agar user baru yang mendaftar otomatis menjadi admin.
-            $table->enum('role', ['superadmin', 'admin'])->default('admin')->after('email');
+            // Default 'maganger' agar user baru yang mendaftar otomatis menjadi maganger.
+            $table->enum('role', ['superadmin', 'maganger'])->default('maganger')->after('email');
         });
     }
 

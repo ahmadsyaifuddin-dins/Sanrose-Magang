@@ -28,7 +28,7 @@ Route::get('/dashboard', function () {
     //     // Jika superadmin, mungkin lebih baik arahkan ke manajemen instansi
     //     return redirect()->route('instansi.index');
     // }
-    // Jika admin, arahkan ke daftar instansi untuk memilih
+    // Jika maganger, arahkan ke daftar instansi untuk memilih
     // return redirect()->route('instansi.list');
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
