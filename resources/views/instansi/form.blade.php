@@ -72,19 +72,39 @@
                         </div>
 
                         <!-- Upload Gambar -->
-                        <div class="mb-4">
-                             <x-input-label for="gambar" :value="__('Gambar Lokasi (Bisa lebih dari satu)')" />
+                        <div class="mb-6">
+                             <x-input-label for="gambar" :value="__('Tambah Gambar Lokasi Baru')" />
                              <input id="gambar" name="gambar[]" type="file" multiple class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 mt-1"/>
                              <x-input-error :messages="$errors->get('gambar.*')" class="mt-2" />
                         </div>
 
-                        <div class="flex items-center justify-end mt-6">
+                        {{-- BAGIAN BARU: PILIH GAMBAR DEFAULT --}}
+                        @if(isset($instansi) && $instansi->images->isNotEmpty())
+                        <div class="mt-6 pt-6 border-t">
+                            <x-input-label :value="__('Pilih Gambar Thumbnail (Default)')" class="mb-2 text-base font-semibold" />
+                            <p class="text-sm text-gray-600 mb-4">Klik pada gambar untuk menjadikannya sebagai gambar utama (thumbnail) yang akan tampil di daftar instansi.</p>
+                            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                                @foreach($instansi->images as $image)
+                                <div class="relative">
+                                    <label for="default_{{ $image->id }}" class="cursor-pointer">
+                                        <img src="{{ asset($image->path_gambar) }}" alt="Gambar Instansi" class="w-full h-32 object-cover rounded-lg border-4 transition-all {{ $image->is_default ? 'border-indigo-500' : 'border-transparent hover:border-gray-300' }}">
+                                        {{-- Tombol radio disembunyikan, tapi fungsional --}}
+                                        <input type="radio" name="default_image_id" id="default_{{ $image->id }}" value="{{ $image->id }}" class="sr-only" {{ $image->is_default ? 'checked' : '' }}>
+                                    </label>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endif
+                        {{-- AKHIR BAGIAN BARU --}}
+
+                        <div class="flex items-center justify-end mt-8">
                             <a href="{{ route('instansi.index') }}" class="text-sm text-gray-600 hover:text-gray-900 mr-4">
                                 {{ __('Batal') }}
                             </a>
 
                             <x-primary-button>
-                                {{ __('Simpan') }}
+                                {{ __('Simpan Perubahan') }}
                             </x-primary-button>
                         </div>
                     </form>

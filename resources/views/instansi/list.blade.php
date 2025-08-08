@@ -36,7 +36,7 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex flex-col">
                     {{-- Gambar Instansi --}}
                     @if($instansi->images->isNotEmpty())
-                    <img src="{{ asset($instansi->images->first()->path_gambar) }}" alt="{{ $instansi->nama_instansi }}"
+                    <img src="{{ asset($instansi->images->where('is_default', true)->first()->path_gambar) }}" alt="{{ $instansi->nama_instansi }}"
                         class="w-full h-48 object-cover">
                     @else
                     <img src="https://placehold.co/600x400/e2e8f0/a0aec0?text=Gambar+Tidak+Tersedia"

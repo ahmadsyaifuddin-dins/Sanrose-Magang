@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nama_instansi');
             $table->text('alamat');
-            $table->date('waktu_kunjungan');
-            $table->time('jam_kunjungan');
+            $table->date('waktu_kunjungan')->nullable();
+            $table->time('jam_kunjungan')->nullable();
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
             $table->timestamps();
