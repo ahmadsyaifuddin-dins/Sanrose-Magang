@@ -16,9 +16,8 @@ use App\Http\Controllers\PetaController;
 |
 */
 
-Route::get('/', function () {
-    // Arahkan ke halaman login jika belum login
-    return view('auth.login');
+Route::middleware('auth')->get('/', function () {
+    return redirect()->route('dashboard');
 });
 
 // Rute Dashboard bawaan Breeze
