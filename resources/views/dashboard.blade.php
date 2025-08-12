@@ -40,6 +40,7 @@
 
             <!-- Panel Spesifik Role -->
             @if(auth()->user()->role == 'maganger')
+                {{-- Tampilan untuk role maganger --}}
                 @if($pilihanUser)
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                         <div class="p-6">
@@ -62,22 +63,62 @@
                     </div>
                 @endif
             @elseif(auth()->user()->role == 'superadmin')
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6">
-                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Rekapitulasi Pilihan</h3>
-                        <div class="mt-4 space-y-4">
-                            @forelse($instansiDenganPilihan as $instansi)
-                                <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                                    <p class="font-semibold text-gray-800 dark:text-gray-200">{{ $instansi->nama_instansi }} (Dipilih oleh {{ $instansi->pilihan->count() }} orang)</p>
-                                    <ul class="list-disc list-inside text-sm text-gray-600 dark:text-gray-400 mt-2">
-                                        @foreach($instansi->pilihan as $pilihan)
-                                            <li>{{ $pilihan->user->name }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @empty
-                                <p class="text-center text-gray-500 dark:text-gray-400 py-4">Belum ada peserta yang memilih instansi.</p>
-                            @endforelse
+                {{-- Tampilan untuk role superadmin dengan layout grid --}}
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Kolom Kiri: Rekapitulasi Pilihan -->
+                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6">
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Rekapitulasi Pilihan</h3>
+                            <div class="mt-4 space-y-4">
+                                @forelse($instansiDenganPilihan as $instansi)
+                                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                                        <p class="font-semibold text-gray-800 dark:text-gray-200">{{ $instansi->nama_instansi }} (Dipilih oleh {{ $instansi->pilihan->count() }} orang)</p>
+                                        <ul class="list-disc list-inside text-sm text-gray-600 dark:text-gray-400 mt-2">
+                                            @foreach($instansi->pilihan as $pilihan)
+                                                <li>{{ $pilihan->user->name }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @empty
+                                    <p class="text-center text-gray-500 dark:text-gray-400 py-4">Belum ada peserta yang memilih instansi.</p>
+                                @endforelse
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kolom Kanan: Aktivitas Login Terbaru -->
+                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6">
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Aktivitas Login Terbaru</h3>
+                            <div class="mt-4 flow-root">
+                                <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                                    @forelse($recentLogins as $user)
+                                        <li class="py-3 sm:py-4">
+                                            <div class="flex items-start space-x-4">
+                                                <div class="flex-shrink-0">
+                                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-500 dark:bg-gray-600">
+                                                        <span class="text-sm font-medium leading-none text-white">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
+                                                    </span>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <p class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ $user->name }}</p>
+                                                    <p class="text-sm text-gray-500 dark:text-gray-400 truncate">{{ $user->email }}</p>
+                                                </div>
+                                                <div class="inline-flex flex-col items-end text-sm text-gray-600 dark:text-gray-400">
+                                                    @if($user->last_login_at)
+                                                        <span class="font-medium">{{ $user->last_login_at->diffForHumans() }}</span>
+                                                        <span class="text-xs text-gray-400 dark:text-gray-500 mt-1">{{ $user->last_login_at->isoFormat('D MMM Y, HH:mm') }}</span>
+                                                    @else
+                                                        <span>-</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @empty
+                                        <li class="py-4 text-center text-gray-500 dark:text-gray-400">Tidak ada data login.</li>
+                                    @endforelse
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -23,6 +23,7 @@ class DashboardController extends Controller
         // Data spesifik yang akan dikirim ke view, diinisialisasi null
         $pilihanUser = null;
         $instansiDenganPilihan = null;
+        $recentLogins = null; // Inisialisasi variabel baru
 
         // Cek role user yang sedang login
         if (Auth::user()->role == 'maganger') {
@@ -32,6 +33,12 @@ class DashboardController extends Controller
         elseif (Auth::user()->role == 'superadmin') {
             // Jika superadmin, ambil semua instansi yang memiliki pemilih
             $instansiDenganPilihan = Instansi::has('pilihan')->with('pilihan.user')->get();
+
+            // --- QUERY BARU: Ambil 5 user yang login terbaru ---
+            $recentLogins = User::whereNotNull('last_login_at')
+                                ->orderBy('last_login_at', 'desc')
+                                ->take(5)
+                                ->get();
         }
 
         // Kirim semua data ke view 'dashboard'
@@ -40,7 +47,8 @@ class DashboardController extends Controller
             'totalMaganger',
             'totalPilihan',
             'pilihanUser',
-            'instansiDenganPilihan'
+            'instansiDenganPilihan',
+            'recentLogins'
         ));
     }
 }
