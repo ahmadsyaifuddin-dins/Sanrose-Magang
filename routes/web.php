@@ -4,7 +4,6 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InstansiController;
 use App\Http\Controllers\PetaController;
-// --- TAMBAHKAN CONTROLLER BARU ---
 use App\Http\Controllers\DashboardController;
 
 /*
@@ -13,9 +12,16 @@ use App\Http\Controllers\DashboardController;
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth')->get('/', function () {
-    return redirect()->route('dashboard');
-});
+// --- RUTE BARU UNTUK HALAMAN DEPAN ---
+Route::get('/', function () {
+    // Jika pengguna sudah login, arahkan langsung ke dashboard.
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    }
+    // Jika belum login (guest), tampilkan halaman welcome.
+    return view('welcome');
+})->name('welcome');
+
 
 // Rute Dashboard sekarang menunjuk ke DashboardController
 Route::get('/dashboard', [DashboardController::class, 'index'])
